@@ -1,5 +1,5 @@
 var express = require("express");
-var adminRouter = require("./users");
+var adminRouter = require("./admin.router");
 var router = express.Router();
 
 /* GET home page. */

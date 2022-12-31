@@ -5,13 +5,13 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var router = require("./routes/index");
 // import mongoose
-const mongoose = require("mongoose");
-mongoose.connect(
-  "mongodb+srv://staycation:staycation@cluster0.e2adofv.mongodb.net/db_staycation?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-  }
-);
+// const mongoose = require("mongoose");
+// mongoose.connect(
+//   "loca",
+//   {
+//     useNewUrlParser: true,
+//   }
+// );
 
 var app = express();
 
