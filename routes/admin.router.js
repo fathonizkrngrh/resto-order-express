@@ -9,5 +9,6 @@ router.get("/product", productController.viewProduct);
 // Category
 router.get("/category", categoryController.viewCategory);
 router.post("/category", categoryController.addCategory);
+router.put("/category", categoryController.editCategory);
 
 module.exports = router;

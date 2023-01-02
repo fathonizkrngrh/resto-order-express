@@ -1,4 +1,4 @@
-const Category = require("../models/Category.model");
+const Category = require("../../models/Category.model");
 
 module.exports = {
   viewCategory: async (req, res) => {
@@ -29,6 +29,26 @@ module.exports = {
       req.flash("alertStatus", "success");
       res.redirect("/admin/category");
     } catch (err) {
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/category");
+    }
+  },
+  editCategory: async (req, res) => {
+    try {
+      const { id, name } = req.body;
+      const findCategory = await Category.findOne({ _id: id });
+
+      console.log(findCategory);
+
+      findCategory.name = name;
+
+      await findCategory.save();
+
+      req.flash("alertMessage", "success edit category");
+      req.flash("alertStatus", "success");
+      res.redirect("/admin/category");
+    } catch (error) {
       req.flash("alertMessage", `${err.message}`);
       req.flash("alertStatus", "danger");
       res.redirect("/admin/category");
