@@ -20,6 +20,20 @@ module.exports = {
       return res.redirect("/admin/category");
     }
   },
+  viewCategoryById: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const category = await Category.findOne({ _id: id });
+
+      res.status(202).json({
+        status: "oke",
+        message: "berhasil",
+        data: category,
+      });
+    } catch (err) {
+      return res.redirect("/admin/category");
+    }
+  },
   addCategory: async (req, res) => {
     try {
       const { name } = req.body;
@@ -45,7 +59,27 @@ module.exports = {
 
       await findCategory.save();
 
+      console.log(findCategory);
+
       req.flash("alertMessage", "success edit category");
+      req.flash("alertStatus", "success");
+      //   res.redirect("/admin/category");
+      return res.redirect("/admin/category");
+    } catch (err) {
+      console.log(err);
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/category");
+    }
+  },
+  deleteCategory: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const findCategory = await Category.findOne({ _id: id });
+
+      await findCategory.remove();
+
+      req.flash("alertMessage", "success delete category");
       req.flash("alertStatus", "success");
       res.redirect("/admin/category");
     } catch (error) {

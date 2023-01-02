@@ -9,6 +9,8 @@ router.get("/product", productController.viewProduct);
 // Category
 router.get("/category", categoryController.viewCategory);
 router.post("/category", categoryController.addCategory);
-router.put("/category", categoryController.editCategory);
+router.get("/category/:id", categoryController.viewCategoryById);
+router.put("/category/edit", categoryController.editCategory);
+router.delete("/category/:id", categoryController.deleteCategory);
 
 module.exports = router;
