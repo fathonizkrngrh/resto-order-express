@@ -46,7 +46,7 @@
           </li>
         </ul>
         <div class="tab-content">
-          <%- include('tableProduct.ejs') %> <%- include('addproduct.ejs') %>
+          <%- include('tableProducts.ejs') %> <%- include('addproduct.ejs') %>
         </div>
 
         <% } else if(action == 'show image') { %>
@@ -133,8 +133,7 @@
     </div>
   </div>
 </div>
-
-<%- include('modalAddProduct.ejs')%> <%- include('../../partials/js.ejs')%>
+<%- include('../../partials/js.ejs')%>
 
 <script>
   $("#dataTable").on("click", ".button-update", function () {
