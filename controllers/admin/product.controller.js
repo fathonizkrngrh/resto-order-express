@@ -10,7 +10,7 @@ module.exports = {
       //   const item = await Item.find()
       //     .populate({ path: "imageId", select: "id imageUrl" })
       //     .populate({ path: "categoryId", select: "id name" });
-      //   const category = await Category.find();
+      const category = await Category.find();
       //   const image = await Image.find();
 
       const alertMessage = req.flash("alertMessage");
@@ -22,7 +22,7 @@ module.exports = {
       const title = "Resto Order | Product";
       res.render("admin/food/viewMenu", {
         // item,
-        // category,
+        category,
         // image,
         alert,
         title,

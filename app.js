@@ -66,7 +66,9 @@ app.use("/", routes);
 app.get("/", (req, res) =>
   res
     .status(status.OK)
-    .json(apiResponse(status.OK, "OK", "Welcome to Angkasa API Application."))
+    .json(
+      apiResponse(status.OK, "OK", "Welcome to Resto Order API Application.")
+    )
 );
 
 // catch 404 and forward to error handler
