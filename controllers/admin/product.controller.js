@@ -37,8 +37,10 @@ module.exports = {
   addProduct: async (req, res) => {
     try {
       const { name, price, categoryId } = req.body;
-
-      if (req.files.length > 0) {
+      console.log(req);
+      console.log(req.file);
+      console.log(req.files);
+      if (req.file.length > 0) {
         const category = await Category.findOne({ _id: categoryId });
 
         const newProduct = {
@@ -49,6 +51,7 @@ module.exports = {
         const product = await Product.create(newProduct);
         category.productId.push({ _id: product._id });
         await category.save();
+        console.log(req.files);
         for (let i = 0; i < req.files.length; i++) {
           const imageSave = await Image.create({
             imageUrl: `images/${req.files[i].filename}`,
