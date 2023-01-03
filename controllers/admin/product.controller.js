@@ -48,7 +48,7 @@ module.exports = {
         message: alertMessage,
         status: alertStatus,
       };
-      const title = "RestoOrder | Show Image Item";
+      const title = "RestoOrder | Show Image product";
       res.render("admin/food/viewMenu", {
         product,
         alert,
@@ -126,7 +126,7 @@ module.exports = {
       res.redirect("/admin/item");
     }
   },
-  editItem: async (req, res) => {
+  editProduct: async (req, res) => {
     try {
       const { id } = req.params;
       const { name, price, categoryId } = req.body;
@@ -196,13 +196,32 @@ module.exports = {
       res.redirect("/admin/product");
     }
   },
+  changeStatus: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const product = await Product.findOne({ _id: id });
+      if (product.isReady === true) {
+        product.isReady = false;
+      } else if (product.isReady === false) {
+        product.isReady = true;
+      }
 
+      await product.save();
+
+      req.flash("alertMessage", "Success set product status");
+      req.flash("alertStatus", "success");
+      res.redirect(`/admin/product`);
+    } catch (err) {
+      console.log(err);
+      res.redirect(`/admin/product`);
+    }
+  },
   deleteProduct: async (req, res) => {
     try {
       const { id } = req.params;
       const product = await Product.findOne({ _id: id }).populate("imageId");
-      for (let i = 0; i < item.imageId.length; i++) {
-        Image.findOne({ _id: item.imageId[i]._id })
+      for (let i = 0; i < product.imageId.length; i++) {
+        Image.findOne({ _id: product.imageId[i]._id })
           .then(async (image) => {
             await fs.unlink(path.join(`public/${image.imageUrl}`));
             image.remove();
@@ -213,8 +232,8 @@ module.exports = {
             return res.redirect("/admin/product");
           });
       }
-      await item.remove();
-      req.flash("alertMessage", "success delete Item");
+      await product.remove();
+      req.flash("alertMessage", "success delete product");
       req.flash("alertStatus", "success");
       res.redirect("/admin/product");
     } catch (err) {

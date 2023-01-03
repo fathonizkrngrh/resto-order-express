@@ -9,7 +9,8 @@ router.get("/product", productController.viewProduct);
 router.get("/product/show-image/:id", productController.showImageProduct);
 router.get("/product/:id", productController.showEditProduct);
 router.post("/product", uploadMultiple, productController.addProduct);
-router.put("/product/:id", productController.addProduct);
+router.put("/product/:id", uploadMultiple, productController.editProduct);
+router.put("/product/:id/status", productController.changeStatus);
 router.delete("/product/:id", productController.deleteProduct);
 
 // Category

@@ -26,7 +26,15 @@
               <td><%- product[i].name %></td>
               <td>Rp. <%- product[i].price %></td>
               <td><%- product[i].categoryId.name %></td>
-              <td><%- product[i].isReady === true ? 'Ready' : 'Habis' %></td>
+              <% if(product[i].isReady === false){ %>
+              <td>
+                <b class="text-danger"> Habis </b>
+              </td>
+              <% } else if(product[i].isReady === true){ %>
+              <td>
+                <b class="text-success">Ready</b>
+              </td>
+              <% } %>
 
               <td>
                 <form
@@ -49,6 +57,17 @@
                     type="submit"
                   >
                     <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+                <form
+                  action="/admin/product/<%- product[i].id %>/status?_method=PUT"
+                  method="POST"
+                >
+                  <button
+                    class="btn btn-circle btn-sm btn-success"
+                    type="submit"
+                  >
+                    <i class="fas fa-check"></i>
                   </button>
                 </form>
               </td>
