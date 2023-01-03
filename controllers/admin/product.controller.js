@@ -11,9 +11,8 @@ module.exports = {
         .populate({ path: "imageId", select: "id imageUrl" })
         .populate({ path: "categoryId", select: "id name" });
       const category = await Category.find();
-      //   const image = await Image.find();
+      const image = await Image.find();
 
-      console.log(product);
       const alertMessage = req.flash("alertMessage");
       const alertStatus = req.flash("alertStatus");
       const alert = {
@@ -49,7 +48,7 @@ module.exports = {
         message: alertMessage,
         status: alertStatus,
       };
-      const title = "Staycation | Show Image Item";
+      const title = "RestoOrder | Show Image Item";
       res.render("admin/food/viewMenu", {
         product,
         alert,
@@ -88,6 +87,135 @@ module.exports = {
         req.flash("alertStatus", "success");
       }
 
+      res.redirect("/admin/product");
+    } catch (err) {
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/product");
+    }
+  },
+
+  showEditProduct: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const product = await Product.findOne({ _id: id })
+        .populate({
+          path: "imageId",
+          select: "id imageUrl",
+        })
+        .populate({ path: "categoryId", select: "id name" });
+      const category = await Category.find();
+
+      const alertMessage = req.flash("alertMessage");
+      const alertStatus = req.flash("alertStatus");
+      const alert = {
+        message: alertMessage,
+        status: alertStatus,
+      };
+      const title = "RestoOrder | Edit Product";
+      res.render("admin/food/viewMenu", {
+        product,
+        alert,
+        category,
+        title,
+        action: "edit",
+      });
+    } catch (err) {
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/item");
+    }
+  },
+  editItem: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, price, categoryId } = req.body;
+      const product = await Product.findOne({ _id: id })
+        .populate({
+          path: "imageId",
+          select: "id imageUrl",
+        })
+        .populate({ path: "categoryId", select: "id name" });
+
+      if (req.files.length == product.imageId.length) {
+        for (let i = 0; i < product.imageId.length; i++) {
+          let imageUpdate = await Image.findOne({
+            _id: product.imageId[i]._id,
+          });
+          await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
+          imageUpdate.imageUrl = `images/${req.files[i].filename}`;
+          await imageUpdate.save();
+        }
+        product.name = name;
+        product.price = price;
+        product.categoryId = categoryId;
+        await product.save();
+
+        req.flash("alertMessage", "success update product");
+        req.flash("alertStatus", "success");
+      } else if (
+        req.files.length != product.imageId.length &&
+        req.files.length > 0
+      ) {
+        for (let i = 0; i < product.imageId.length; i++) {
+          let imageUpdate = await Image.findOne({
+            _id: product.imageId[i]._id,
+          });
+          await fs.unlink(path.join(`public/${imageUpdate.imageUrl}`));
+          product.imageId[i] = undefined;
+          await imageUpdate.save();
+        }
+
+        for (let j = 0; j < req.files.length; j++) {
+          const imageSave = await Image.create({
+            imageUrl: `images/${req.files[j].filename}`,
+          });
+          product.imageId.push({ _id: imageSave._id });
+          await product.save();
+        }
+        product.name = name;
+        product.price = price;
+        product.categoryId = categoryId;
+        await product.save();
+
+        req.flash("alertMessage", "success update product");
+        req.flash("alertStatus", "success");
+      } else {
+        product.name = name;
+        product.price = price;
+        product.categoryId = categoryId;
+        await product.save();
+
+        req.flash("alertMessage", "success update product");
+        req.flash("alertStatus", "success");
+      }
+      res.redirect("/admin/product");
+    } catch (err) {
+      req.flash("alertMessage", `${err.message}`);
+      req.flash("alertStatus", "danger");
+      res.redirect("/admin/product");
+    }
+  },
+
+  deleteProduct: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const product = await Product.findOne({ _id: id }).populate("imageId");
+      for (let i = 0; i < item.imageId.length; i++) {
+        Image.findOne({ _id: item.imageId[i]._id })
+          .then(async (image) => {
+            await fs.unlink(path.join(`public/${image.imageUrl}`));
+            image.remove();
+          })
+          .catch((error) => {
+            req.flash("alertMessage", `${error.message}`);
+            req.flash("alertStatus", "danger");
+            return res.redirect("/admin/product");
+          });
+      }
+      await item.remove();
+      req.flash("alertMessage", "success delete Item");
+      req.flash("alertStatus", "success");
       res.redirect("/admin/product");
     } catch (err) {
       req.flash("alertMessage", `${err.message}`);

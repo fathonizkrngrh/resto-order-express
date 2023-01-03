@@ -10,7 +10,7 @@ module.exports = {
         message: alertMessage,
         status: alertStatus,
       };
-      const title = "Staycation | Category";
+      const title = "RestoOrder | Category";
       return res.render("admin/category/viewCategory", {
         category,
         alert,

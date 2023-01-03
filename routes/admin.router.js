@@ -7,9 +7,10 @@ const { uploadMultiple, upload } = require("../middleware/multer");
 /* Product */
 router.get("/product", productController.viewProduct);
 router.get("/product/show-image/:id", productController.showImageProduct);
+router.get("/product/:id", productController.showEditProduct);
 router.post("/product", uploadMultiple, productController.addProduct);
 router.put("/product/:id", productController.addProduct);
-router.delete("/product/:id", productController.addProduct);
+router.delete("/product/:id", productController.deleteProduct);
 
 // Category
 router.get("/category", categoryController.viewCategory);
