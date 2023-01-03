@@ -1,44 +1,26 @@
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="add-product-modal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="addModalProductTitle">
-          Add New Product
-        </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
+<div id="add-product" class="tab-pane fade">
+  <div class="card shadow mb-4 mt-t">
+    <div class="card-body">
       <form action="/admin/product" method="POST" enctype="multipart/form-data">
-        <div class="modal-body">
-          <div class="mb-3">
+        <div class="row g-3">
+          <div class="form-group col-md-6">
             <label for="name">Name</label>
             <input
               type="text"
               class="form-control"
               id="name"
-              placeholder="Enter product name"
+              placeholder="Enter name"
               name="name"
               required
             />
           </div>
-          <div class="mb-3">
-            <label for="price">Price</label>
+          <div class="form-group col-md-6">
+            <label for="Price">Price</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="price"
-              placeholder="Enter product price"
+              placeholder="Enter price"
               name="price"
               required
             />
@@ -66,16 +48,8 @@
             />
           </div>
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="submit" class="btn btn-primary">Add</button>
-        </div>
+
+        <button type="submit" class="btn btn-primary">Add</button>
       </form>
     </div>
   </div>

@@ -2,12 +2,13 @@ var express = require("express");
 var router = express.Router();
 const productController = require("../controllers/admin/product.controller");
 const categoryController = require("../controllers/admin/category.controller");
-const { uploadMultiple } = require("../middleware/multer");
+const { uploadMultiple, upload } = require("../middleware/multer");
 
 /* Product */
 router.get("/product", productController.viewProduct);
+router.get("/product/show-image/:id", productController.showImageProduct);
 router.post("/product", uploadMultiple, productController.addProduct);
-router.put("/product/:id", uploadMultiple, productController.addProduct);
+router.put("/product/:id", productController.addProduct);
 router.delete("/product/:id", productController.addProduct);
 
 // Category

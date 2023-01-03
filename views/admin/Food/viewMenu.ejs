@@ -21,10 +21,65 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">Product Menu</h1>
         <!-- Akhir Heading -->
+        <% if(action == 'view'){%>
+        <!-- nav tabs -->
+        <ul class="nav nav-tabs">
+          <li class="nav-item active">
+            <a
+              class="nav-link active"
+              data-toggle="tab"
+              id="show-product-tab"
+              href="#show-product"
+              role="tab"
+              >Show Product</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="tab"
+              id="add-product-tab"
+              href="#add-product"
+              role="tab"
+              >Add Item</a
+            >
+          </li>
+        </ul>
+        <div class="tab-content">
+          <%- include('tableProduct.ejs') %> <%- include('addproduct.ejs') %>
+        </div>
 
-        <!-- Table -->
-        <%- include('tableProducts.ejs') %>
-        <!-- AkhirTable -->
+        <% } else if(action == 'show image') { %>
+
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              data-toggle="tab"
+              id="show-product-tab"
+              href="#show-image"
+              role="tab"
+              >Show Image</a
+            >
+          </li>
+        </ul>
+        <div class="tab-content"><%- include('viewImageProduct.ejs') %></div>
+
+        <% } else { %>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              data-toggle="tab"
+              id="edit-item-tab"
+              href="#edit-product"
+              role="tab"
+              >Edit product</a
+            >
+          </li>
+        </ul>
+        <div class="tab-content"><%- include('editProduct.ejs') %></div>
+        <% } %>
       </div>
       <!-- /.container-fluid -->
     </div>
@@ -82,16 +137,16 @@
 <%- include('modalAddProduct.ejs')%> <%- include('../../partials/js.ejs')%>
 
 <script>
-  //   $("#dataTable").on("click", ".button-update", function () {
-  //     let id = $(this).data("id");
-  //     let bankName = $(this).data("bankname");
-  //     let rekeningNumber = $(this).data("rekening");
-  //     let userName = $(this).data("username");
+  $("#dataTable").on("click", ".button-update", function () {
+    let id = $(this).data("id");
+    let name = $(this).data("name");
+    let price = $(this).data("price");
+    let category = $(this).data("category");
 
-  //     $("#edit-bank-modal").modal("show");
-  //     $(".id").val(id);
-  //     $(".bankName").val(bankName);
-  //     $(".rekeningNumber").val(rekeningNumber);
-  //     $(".userName").val(userName);
-  //   });
+    $("#edit-bank-modal").modal("show");
+    $(".id").val(id);
+    $(".name").val(name);
+    $(".price").val(price);
+    $(".category").val(category);
+  });
 </script>

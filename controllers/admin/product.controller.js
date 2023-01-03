@@ -1,7 +1,7 @@
 const Product = require("../../models/Product.model");
 const Image = require("../../models/Image.model");
 const Category = require("../../models/Category.model");
-// const fs = require("fs-extra");
+const fs = require("fs-extra");
 const path = require("path");
 
 module.exports = {
@@ -13,6 +13,7 @@ module.exports = {
       const category = await Category.find();
       //   const image = await Image.find();
 
+      console.log(product);
       const alertMessage = req.flash("alertMessage");
       const alertStatus = req.flash("alertStatus");
       const alert = {
@@ -34,13 +35,36 @@ module.exports = {
       });
     }
   },
+  showImageProduct: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const product = await Product.findOne({ _id: id }).populate({
+        path: "imageId",
+        select: "id imageUrl",
+      });
+
+      const alertMessage = req.flash("alertMessage");
+      const alertStatus = req.flash("alertStatus");
+      const alert = {
+        message: alertMessage,
+        status: alertStatus,
+      };
+      const title = "Staycation | Show Image Item";
+      res.render("admin/food/viewMenu", {
+        product,
+        alert,
+        title,
+        action: "show image",
+      });
+    } catch (err) {
+      res.redirect("/admin/item");
+    }
+  },
   addProduct: async (req, res) => {
     try {
       const { name, price, categoryId } = req.body;
-      console.log(req);
-      console.log(req.file);
       console.log(req.files);
-      if (req.file.length > 0) {
+      if (req.files.length > 0) {
         const category = await Category.findOne({ _id: categoryId });
 
         const newProduct = {
