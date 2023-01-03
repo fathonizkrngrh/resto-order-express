@@ -56,7 +56,7 @@ module.exports = {
         action: "show image",
       });
     } catch (err) {
-      res.redirect("/admin/item");
+      res.redirect("/admin/RestoOrder");
     }
   },
   addProduct: async (req, res) => {
@@ -123,7 +123,7 @@ module.exports = {
     } catch (err) {
       req.flash("alertMessage", `${err.message}`);
       req.flash("alertStatus", "danger");
-      res.redirect("/admin/item");
+      res.redirect("/admin/RestoOrder");
     }
   },
   editProduct: async (req, res) => {

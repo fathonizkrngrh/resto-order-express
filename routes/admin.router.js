@@ -11,7 +11,7 @@ router.get("/product/:id", productController.showEditProduct);
 router.post("/product", uploadMultiple, productController.addProduct);
 router.put("/product/:id", uploadMultiple, productController.editProduct);
 router.put("/product/:id/status", productController.changeStatus);
-router.delete("/product/:id", productController.deleteProduct);
+router.delete("/product/:id/delete", productController.deleteProduct);
 
 // Category
 router.get("/category", categoryController.viewCategory);

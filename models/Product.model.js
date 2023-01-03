@@ -16,9 +16,9 @@ const productSchema = new Schema({
     ref: "Category",
   },
   imageId: [{ type: ObjectId, ref: "Image" }],
-  isPopular: {
-    type: Boolean,
-    default: false,
+  totalOrder: {
+    type: Number,
+    default: 0,
   },
   isReady: {
     type: Boolean,

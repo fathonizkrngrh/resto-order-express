@@ -2,7 +2,7 @@ require("dotenv").config();
 const createError = require("http-errors");
 const express = require("express");
 const session = require("express-session");
-// const cors = require("cors");
+const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
@@ -20,10 +20,10 @@ mongoose.connect("mongodb://127.0.0.1:27017/resto-order", {
 const app = express();
 const port = process.env.PORT || 8080;
 
-// var corsOptions = {
-//   origin: "http://localhost:8081",
-// };
-// app.use(cors(corsOptions));
+var corsOptions = {
+  origin: "http://localhost:8081",
+};
+app.use(cors(corsOptions));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
