@@ -7,9 +7,9 @@ const path = require("path");
 module.exports = {
   viewProduct: async (req, res) => {
     try {
-      //   const item = await Item.find()
-      //     .populate({ path: "imageId", select: "id imageUrl" })
-      //     .populate({ path: "categoryId", select: "id name" });
+      const product = await Product.find()
+        .populate({ path: "imageId", select: "id imageUrl" })
+        .populate({ path: "categoryId", select: "id name" });
       const category = await Category.find();
       //   const image = await Image.find();
 
@@ -21,7 +21,7 @@ module.exports = {
       };
       const title = "Resto Order | Product";
       res.render("admin/food/viewMenu", {
-        // item,
+        product,
         category,
         // image,
         alert,
