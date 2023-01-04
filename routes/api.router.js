@@ -13,5 +13,6 @@ router.get("/popular-product", apiController.getProductPopular);
 router.post("/cart/:id", apiController.addToCart);
 router.get("/cart", apiController.getCartProduct);
 router.delete("/cart/:id", apiController.deleteProductCart);
+router.delete("/delete-all/cart", apiController.deleteAllProductCart);
 
 module.exports = router;

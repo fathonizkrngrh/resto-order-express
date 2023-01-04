@@ -21,7 +21,11 @@ const orderSchema = new Schema({
     type: Number,
     required: true,
   },
-  memberName: {
+  tableNumber: {
+    type: Number,
+    required: true,
+  },
+  username: {
     type: String,
     required: true,
   },
