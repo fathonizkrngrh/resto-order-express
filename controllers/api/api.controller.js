@@ -112,6 +112,8 @@ module.exports = {
         );
     }
   },
+
+  // ----------- Cart ----------- //
   addToCart: async (req, res) => {
     try {
       const { qty, notes } = req.body;
@@ -165,6 +167,34 @@ module.exports = {
         .json(
           apiResponse(status.OK, "OK", `Success get all product in cart`, cart)
         );
+    } catch (error) {
+      return res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .json(
+          apiResponse(
+            status.INTERNAL_SERVER_ERROR,
+            "INTERNAL_SERVER_ERROR",
+            error.message
+          )
+        );
+    }
+  },
+  deleteProductCart: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const cart = await Cart.findOne({ _id: id });
+      if (!cart) {
+        return res
+          .status(status.NOT_FOUND)
+          .json(apiNotFoundResponse("Cart not found"));
+      }
+
+      await cart.remove();
+
+      return res
+        .status(status.OK)
+        .json(apiResponse(status.OK, "OK", `Success delete product in cart`));
     } catch (error) {
       return res
         .status(status.INTERNAL_SERVER_ERROR)
