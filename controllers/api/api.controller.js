@@ -1,5 +1,6 @@
 const Product = require("../../models/Product.model");
 const Category = require("../../models/Category.model");
+const Cart = require("../../models/Cart.model");
 const Order = require("../../models/Order.model");
 // utilities
 const { StatusCodes: status } = require("http-status-codes");
@@ -111,12 +112,72 @@ module.exports = {
         );
     }
   },
-  searchProduct: async (req, res) => {
+  addToCart: async (req, res) => {
     try {
-      const { search } = req.body;
-      const product = await Product.find({ name: { $regex: '"hp probook"' } });
-    } catch (error) {}
+      const { qty, notes } = req.body;
+      const { id } = req.params;
+
+      const product = await Product.findOne({ _id: id });
+
+      const totalPrice = product.price * qty;
+
+      cartProduct = {
+        productId: id,
+        qty,
+        subtotal: totalPrice,
+        notes: notes || "-",
+      };
+
+      const cart = await Cart.create(cartProduct);
+
+      return res
+        .status(status.OK)
+        .json(
+          apiResponse(status.OK, "OK", `Success add product to cart`, cart)
+        );
+    } catch (error) {
+      return res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .json(
+          apiResponse(
+            status.INTERNAL_SERVER_ERROR,
+            "INTERNAL_SERVER_ERROR",
+            error.message
+          )
+        );
+    }
   },
+  getCartProduct: async (req, res) => {
+    try {
+      const cart = await Cart.find().populate({
+        path: "productId",
+        select: "_id name price",
+      });
+
+      if (!cart) {
+        return res
+          .status(status.NOT_FOUND)
+          .json(apiNotFoundResponse("Cart is Empty"));
+      }
+
+      return res
+        .status(status.OK)
+        .json(
+          apiResponse(status.OK, "OK", `Success get all product in cart`, cart)
+        );
+    } catch (error) {
+      return res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .json(
+          apiResponse(
+            status.INTERNAL_SERVER_ERROR,
+            "INTERNAL_SERVER_ERROR",
+            error.message
+          )
+        );
+    }
+  },
+
   sendOrder: async (req, res) => {
     try {
       const { search } = req.body;

@@ -9,7 +9,8 @@ router.get("/category", apiController.getProductByCategory);
 router.get("/product/:id", apiController.getDetailProductById);
 router.get("/popular-product", apiController.getProductPopular);
 
-// Order
-router.post("/order", apiController.sendOrder);
+// Cart
+router.post("/cart/:id", apiController.addToCart);
+router.get("/cart", apiController.getCartProduct);
 
 module.exports = router;
