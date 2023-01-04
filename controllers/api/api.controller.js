@@ -2,6 +2,7 @@ const Product = require("../../models/Product.model");
 const Category = require("../../models/Category.model");
 const Cart = require("../../models/Cart.model");
 const Order = require("../../models/Order.model");
+const { createInvoice, sumTotalBeforeTax } = require("../../utils/order.utils");
 // utilities
 const { StatusCodes: status } = require("http-status-codes");
 const {
@@ -272,10 +273,58 @@ module.exports = {
     }
   },
 
+  // ----------- Order ----------- //
+
   sendOrder: async (req, res) => {
     try {
-      const { search } = req.body;
-      const product = await Product.find({ name: { $regex: '"hp probook"' } });
-    } catch (error) {}
+      const { tableNumber, username } = req.body;
+
+      const cart = await Cart.find().populate({
+        path: "productId",
+        select: "_id name price",
+      });
+      const product = await Product.find();
+
+      const invoice = createInvoice(username, tableNumber);
+
+      let cartId = [];
+      for (let i = 0; i < cart.length; i++) {
+        cartId.push(cart[i]._id);
+        for (let j = 0; j < product.length; j++) {
+          if (cart[i].productId == product[j]._id) {
+            product[j].totalOrder += Number(cart[i].qty);
+            product.save();
+          }
+        }
+      }
+
+      const totalBeforeTax = sumTotalBeforeTax(cart);
+      const tax = Number(totalBeforeTax) * 0.1;
+      const total = Number(totalBeforeTax) + tax;
+
+      const payload = {
+        invoice,
+        cartId,
+        total,
+        tax,
+        tableNumber,
+        username,
+      };
+
+      const order = await Order.create(payload);
+      return res
+        .status(status.OK)
+        .json(apiResponse(status.OK, "OK", `Success  order product`, order));
+    } catch (error) {
+      return res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .json(
+          apiResponse(
+            status.INTERNAL_SERVER_ERROR,
+            "INTERNAL_SERVER_ERROR",
+            error.message
+          )
+        );
+    }
   },
 };
