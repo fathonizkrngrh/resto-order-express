@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const productController = require("../controllers/admin/product.controller");
 const categoryController = require("../controllers/admin/category.controller");
+const orderController = require("../controllers/admin/order.controller");
 const { uploadMultiple, upload } = require("../middleware/multer");
 
 /* Product */
@@ -19,5 +20,8 @@ router.post("/category", categoryController.addCategory);
 router.get("/category/:id", categoryController.viewCategoryById);
 router.put("/category", categoryController.editCategory);
 router.delete("/category/:id", categoryController.deleteCategory);
+
+// Order
+router.get("/order", orderController.viewOrder);
 
 module.exports = router;

@@ -29,9 +29,9 @@ const orderSchema = new Schema({
     type: String,
     required: true,
   },
-  status: {
-    type: String,
-    default: "Unpaid",
+  isPaid: {
+    type: Boolean,
+    default: false,
   },
 });
 
