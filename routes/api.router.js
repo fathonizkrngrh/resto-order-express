@@ -15,4 +15,7 @@ router.get("/cart", apiController.getCartProduct);
 router.delete("/cart/:id", apiController.deleteProductCart);
 router.delete("/delete-all/cart", apiController.deleteAllProductCart);
 
+// Order
+router.post("/order", apiController.sendOrder);
+
 module.exports = router;
