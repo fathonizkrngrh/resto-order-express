@@ -1,12 +1,15 @@
 module.exports = {
   createInvoice: (username, table) => {
     return (
-      "RO" + Math.floor(Math.random() * 10000) + table + username.slice(0, 2)
+      "RO" + Math.floor(Math.random() * 10000) + table + username.slice(0, 1)
     );
   },
   sumTotalBeforeTax: (productCarts) => {
-    productCarts.reduce(function (item, data) {
-      return item + data.productId.price * data.qty;
-    }, 0);
+    let total = 0;
+    for (let i = 0; i < productCarts.length; i++) {
+      const product = productCarts[i];
+      total += product.productId.price * product.qty;
+    }
+    return total;
   },
 };

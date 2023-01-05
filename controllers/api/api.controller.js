@@ -292,15 +292,28 @@ module.exports = {
         cartId.push(cart[i]._id);
         for (let j = 0; j < product.length; j++) {
           if (cart[i].productId == product[j]._id) {
+            console.log(product[j].totalOrder, cart[i].qty);
             product[j].totalOrder += Number(cart[i].qty);
             product.save();
           }
         }
       }
+      console.log("cartid", cartId);
+
+      // const sumTotalBeforeTax = (productCarts) => {
+      //   productCarts.reduce(function (item, data) {
+      //     return item + data.productId.price * data.qty;
+      //   }, 0);
+      // },
 
       const totalBeforeTax = sumTotalBeforeTax(cart);
       const tax = Number(totalBeforeTax) * 0.1;
       const total = Number(totalBeforeTax) + tax;
+
+      console.log({
+        total,
+        tax,
+      });
 
       const payload = {
         invoice,
@@ -312,6 +325,7 @@ module.exports = {
       };
 
       const order = await Order.create(payload);
+
       return res
         .status(status.OK)
         .json(apiResponse(status.OK, "OK", `Success  order product`, order));
