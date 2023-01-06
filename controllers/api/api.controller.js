@@ -152,7 +152,7 @@ module.exports = {
       const product = await Product.findOne({ _id: id });
 
       const isExist = await Cart.findOne({ productId: id });
-      if (isExist) {
+      if (isExist && isExist.isOrdered === false) {
         isExist.qty = isExist.qty + Number(qty);
         if (isExist.notes) {
           isExist.notes = isExist.notes + ` | ${notes}`;
