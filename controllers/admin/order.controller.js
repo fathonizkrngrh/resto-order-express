@@ -4,7 +4,14 @@ const Order = require("../../models/Order.model");
 module.exports = {
   viewOrder: async (req, res) => {
     try {
-      const order = await Order.find();
+      const order = await Order.find().populate({
+        path: "cartId",
+        select: "productId qty notes",
+        populate: {
+          path: "productId",
+          select: "name",
+        },
+      });
 
       const alertMessage = req.flash("alertMessage");
       const alertStatus = req.flash("alertStatus");
@@ -13,6 +20,7 @@ module.exports = {
         status: alertStatus,
       };
       const title = "Resto Order | Order";
+      console.log(order);
       res.render("admin/order/viewOrder", {
         order,
         alert,
