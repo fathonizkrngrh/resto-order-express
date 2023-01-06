@@ -180,6 +180,7 @@ module.exports = {
           qty,
           subtotal: totalPrice,
           notes: notes || "",
+          isOrdered: false,
         };
         const cart = await Cart.create(cartProduct);
         return res
@@ -279,12 +280,24 @@ module.exports = {
     try {
       const { tableNumber, username } = req.body;
 
+      if (tableNumber === undefined || username === undefined) {
+        return res
+          .status(status.BAD_REQUEST)
+          .json(apiBadRequestResponse("Enter your name and table number"));
+      }
+
       const cart = await Cart.find({
         isOrdered: false,
       }).populate({
         path: "productId",
         select: "_id name price",
       });
+      if (!cart) {
+        return res
+          .status(status.BAD_REQUEST)
+          .json(apiBadRequestResponse("Please add your food to cart!!"));
+      }
+
       const product = await Product.find();
 
       const invoice = createInvoice(username, tableNumber);
