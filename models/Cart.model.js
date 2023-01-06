@@ -16,6 +16,10 @@ const Cart = new Schema({
     type: String,
     required: false,
   },
+  isOrdered: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("Cart", Cart);

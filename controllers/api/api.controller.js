@@ -202,7 +202,7 @@ module.exports = {
   },
   getCartProduct: async (req, res) => {
     try {
-      const cart = await Cart.find().populate({
+      const cart = await Cart.find({ isOrdered: false }).populate({
         path: "productId",
         select: "_id name price",
       });
@@ -279,7 +279,9 @@ module.exports = {
     try {
       const { tableNumber, username } = req.body;
 
-      const cart = await Cart.find().populate({
+      const cart = await Cart.find({
+        isOrdered: false,
+      }).populate({
         path: "productId",
         select: "_id name price",
       });
@@ -290,6 +292,8 @@ module.exports = {
       let cartId = [];
       for (let i = 0; i < cart.length; i++) {
         cartId.push(cart[i]._id);
+        cart[i].isOrdered = true;
+        cart[i].save();
         for (let j = 0; j < product.length; j++) {
           if (cart[i].productId == product[j]._id) {
             console.log(product[j].totalOrder, cart[i].qty);
@@ -298,13 +302,6 @@ module.exports = {
           }
         }
       }
-      console.log("cartid", cartId);
-
-      // const sumTotalBeforeTax = (productCarts) => {
-      //   productCarts.reduce(function (item, data) {
-      //     return item + data.productId.price * data.qty;
-      //   }, 0);
-      // },
 
       const totalBeforeTax = sumTotalBeforeTax(cart);
       const tax = Number(totalBeforeTax) * 0.1;
