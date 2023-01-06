@@ -24,22 +24,16 @@
           <tbody>
             <% for(let i = 0; i < order.length; i++){ %>
             <tr>
-              <td rowspan="<%- order[i].cartId.length %>"><%- i+1 %></td>
-              <td rowspan="<%- order[i].cartId.length %>">
-                <%- order[i].invoice %>
-              </td>
-              <td rowspan="<%- order[i].cartId.length %>">
-                Rp. <%- order[i].total %>
-              </td>
-              <td rowspan="<%- order[i].cartId.length %>">
-                <%- order[i].tableNumber %>
-              </td>
+              <td><%- i+1 %></td>
+              <td><%- order[i].invoice %></td>
+              <td>Rp. <%- order[i].total %></td>
+              <td><%- order[i].tableNumber %></td>
               <td>
                 <table class="table mb-0 p-0">
                   <% for(let j = 0; j < order[i].cartId.length; j++){ %>
 
                   <tr>
-                    <td style="width: 50px"><%- order[i].cartId[j].qty %>x</td>
+                    <td style="width: 30px"><%- order[i].cartId[j].qty %>x</td>
                     <td><%- order[i].cartId[j].productId.name %></td>
                     <td style="width: 150px">
                       <%- order[i].cartId[j].notes %>
@@ -50,20 +44,18 @@
                 </table>
               </td>
 
-              <td rowspan="<%- order[i].cartId.length %>">
-                <%- order[i].username %>
-              </td>
+              <td><%- order[i].username %></td>
               <% if(order[i].isPaid === false){ %>
-              <td rowspan="<%- order[i].cartId.length %>">
+              <td>
                 <b class="text-danger"> Unpaid </b>
               </td>
               <% } else if(order[i].isPaid === true){ %>
-              <td rowspan="<%- order[i].cartId.length %>">
+              <td>
                 <b class="text-success">Paid</b>
               </td>
               <% } %>
 
-              <td rowspan="<%- order[i].cartId.length %>">
+              <td>
                 <form
                   action="/admin/order/<%- order[i].id %>/status?_method=PUT"
                   method="POST"
