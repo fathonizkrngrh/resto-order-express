@@ -137,6 +137,24 @@ module.exports = {
         })
         .populate({ path: "categoryId", select: "id name" });
 
+      if (categoryId !== product.categoryId) {
+        const category = await Category.findOne({ _id: product.categoryId });
+        console.log("sebelum dihapus ", category.productId);
+        for (var i = category.productId.length - 1; i >= 0; i--) {
+          if (category.productId[i] === id) {
+            category.productId.splice(i, 1);
+          }
+        }
+        await category.save();
+        console.log("setelah dihapus", category.productId);
+
+        const newCategory = await Category.findOne({ _id: categoryId });
+        console.log("sebelum ditambah ", newCategory.productId);
+        newCategory.productId.push({ _id: product._id });
+        await newCategory.save();
+        console.log("setelah ditambah", newCategory.productId);
+      }
+
       if (req.files.length == product.imageId.length) {
         for (let i = 0; i < product.imageId.length; i++) {
           let imageUpdate = await Image.findOne({
@@ -220,6 +238,16 @@ module.exports = {
     try {
       const { id } = req.params;
       const product = await Product.findOne({ _id: id }).populate("imageId");
+
+      const category = await Category.findOne({ _id: product.categoryId });
+      console.log("sebelum dihapus ", category.productId);
+      for (var i = category.productId.length - 1; i >= 0; i--) {
+        if (category.productId[i] === id) {
+          category.productId.splice(i, 1);
+        }
+      }
+      await category.save();
+      console.log("setelah dihapus", category.productId);
       for (let i = 0; i < product.imageId.length; i++) {
         Image.findOne({ _id: product.imageId[i]._id })
           .then(async (image) => {
