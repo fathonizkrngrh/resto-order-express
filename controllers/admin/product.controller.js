@@ -140,12 +140,10 @@ module.exports = {
       if (categoryId !== product.categoryId) {
         const category = await Category.findOne({ _id: product.categoryId });
         console.log("sebelum dihapus ", category.productId);
-        for (var i = category.productId.length - 1; i >= 0; i--) {
-          if (category.productId[i] === id) {
-            category.productId.splice(i, 1);
-          }
-        }
-        await category.save();
+        await Category.updateOne(
+          { _id: product.categoryId },
+          { $pull: { productId: id } }
+        );
         console.log("setelah dihapus", category.productId);
 
         const newCategory = await Category.findOne({ _id: categoryId });
@@ -241,12 +239,10 @@ module.exports = {
 
       const category = await Category.findOne({ _id: product.categoryId });
       console.log("sebelum dihapus ", category.productId);
-      for (var i = category.productId.length - 1; i >= 0; i--) {
-        if (category.productId[i] === id) {
-          category.productId.splice(i, 1);
-        }
-      }
-      await category.save();
+      await Category.updateOne(
+        { _id: product.categoryId },
+        { $pull: { productId: id } }
+      );
       console.log("setelah dihapus", category.productId);
       for (let i = 0; i < product.imageId.length; i++) {
         Image.findOne({ _id: product.imageId[i]._id })
