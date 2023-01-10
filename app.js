@@ -13,9 +13,13 @@ const { apiResponse, apiNotFoundResponse } = require("./utils/api.response");
 const routes = require("./routes/index");
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://127.0.0.1:27017/resto-order", {
-  useNewUrlParser: true,
-});
+mongoose.connect(
+  "mongodb+srv://restoorder:restoorder@resto-order.dbq1wwd.mongodb.net/?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 const app = express();
 const port = process.env.PORT || 8080;

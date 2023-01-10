@@ -3,7 +3,10 @@ var router = express.Router();
 const productController = require("../controllers/admin/product.controller");
 const categoryController = require("../controllers/admin/category.controller");
 const orderController = require("../controllers/admin/order.controller");
+const dashboardC = require("../controllers/admin/dashboard.controller");
 const { uploadMultiple, upload } = require("../middleware/multer");
+
+router.get("/", dashboardC.viewDashboard);
 
 /* Product */
 router.get("/product", productController.viewProduct);

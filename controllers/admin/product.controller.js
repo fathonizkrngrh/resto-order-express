@@ -29,7 +29,7 @@ module.exports = {
         action: "view",
       });
     } catch (err) {
-      rs.render("error", {
+      res.render("error", {
         err,
       });
     }

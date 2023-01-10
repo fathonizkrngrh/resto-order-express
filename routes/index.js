@@ -7,10 +7,4 @@ var router = express.Router();
 router.use("/admin", adminRouter);
 router.use("/api", apiRouter);
 
-router.get("/admin", (req, res) => {
-  res.render("index", {
-    title: "RestoOrder | Dashboard",
-  });
-});
-
 module.exports = router;
