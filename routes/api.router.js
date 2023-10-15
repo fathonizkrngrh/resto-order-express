@@ -12,12 +12,13 @@ router.get("/product/:id", productC.getDetailProductById);
 router.get("/popular-product", productC.getProductPopular);
 
 // Cart
+router.post("/cart/list", cartC.getCartProduct);
 router.post("/cart/:id", cartC.addToCart);
-router.post("/cart", cartC.getCartProduct);
 router.delete("/cart/:id", cartC.deleteProductCart);
 router.delete("/delete-all/cart", cartC.deleteAllProductCart);
 
 // Order
 router.post("/order", orderC.sendOrder);
+router.post("/order/list", orderC.getOrder);
 
 module.exports = router;

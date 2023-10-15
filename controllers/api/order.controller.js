@@ -84,4 +84,35 @@ module.exports = {
         );
     }
   },
+
+  getOrder: async (req, res) => {
+    try {
+      const { useragent} = req.body
+
+      const order = await Order.find({
+        useragent: useragent ,
+      }).populate({
+        path: "cartId",
+        select: "_id productId qty subtotal notes isOrdered",
+        populate: {
+          path: "productId",
+          select: "_id name",
+        },
+      });
+
+      return res
+        .status(status.OK)
+        .json(apiResponse(status.OK, "OK", `Success  get ordered product`, order));
+    } catch (error) {
+      return res
+        .status(status.INTERNAL_SERVER_ERROR)
+        .json(
+          apiResponse(
+            status.INTERNAL_SERVER_ERROR,
+            "INTERNAL_SERVER_ERROR",
+            error.message
+          )
+        );
+    }
+  }
 };
