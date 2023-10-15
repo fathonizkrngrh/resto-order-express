@@ -15,7 +15,11 @@ const routes = require("./routes/index");
 
 const mongoose = require("mongoose");
 mongoose.connect(
-  process.env.DB_URL
+  process.env.DB_URL,{
+    dbName: 'test',
+    retryWrites: true,
+    w: 'majority'
+  }
 );
 
 const app = express();
