@@ -21,7 +21,7 @@ mongoose.connect(
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(cors({origin: '*'}));
+app.use(cors({origin: ['https://resto-order-pat-3.netlify.app']}));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
