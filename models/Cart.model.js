@@ -16,6 +16,10 @@ const Cart = new Schema({
     type: String,
     required: false,
   },
+  useragent: {
+    type: String,
+    required: true,
+  },
   isOrdered: {
     type: Boolean,
     default: false,

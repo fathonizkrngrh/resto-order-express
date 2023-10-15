@@ -6,6 +6,7 @@ const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
+const useragent = require('express-useragent');
 const logger = require("morgan");
 const flash = require("connect-flash");
 const { StatusCodes: status } = require("http-status-codes");
@@ -30,6 +31,7 @@ app.set("trust proxy", 1); // trust first proxy
 app.use(logger("dev"));
 app.use(methodOverride("_method"));
 app.use(express.json());
+app.use(useragent.express());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "./public")));

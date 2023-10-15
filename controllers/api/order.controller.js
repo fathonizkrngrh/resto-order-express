@@ -8,13 +8,13 @@ const {
   apiResponse,
   apiBadRequestResponse,
 } = require("../../utils/api.response");
+const { getUserAgent } = require("../../utils/useragent.utils");
 
 module.exports = {
   // ----------- Order ----------- //
-
   sendOrder: async (req, res) => {
     try {
-      const { tableNumber, username } = req.body;
+      const { tableNumber, username, useragent } = req.body;
 
       if (tableNumber === undefined || username === undefined) {
         return res
@@ -24,7 +24,7 @@ module.exports = {
 
       const cart = await Cart.find({
         isOrdered: false,
-        user: ,
+        useragent: useragent ,
       }).populate({
         path: "productId",
         select: "_id name price",
@@ -57,11 +57,6 @@ module.exports = {
       const tax = Number(totalBeforeTax) * 0.1;
       const total = Number(totalBeforeTax) + tax;
 
-      console.log({
-        total,
-        tax,
-      });
-
       const payload = {
         invoice,
         cartId,
@@ -69,6 +64,7 @@ module.exports = {
         tax,
         tableNumber,
         username,
+        useragent
       };
 
       const order = await Order.create(payload);

@@ -29,6 +29,10 @@ const orderSchema = new Schema({
     type: String,
     required: true,
   },
+  useragent: {
+    type: String,
+    required: true,
+  },
   isPaid: {
     type: Boolean,
     default: false,

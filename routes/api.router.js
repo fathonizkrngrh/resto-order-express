@@ -13,7 +13,7 @@ router.get("/popular-product", productC.getProductPopular);
 
 // Cart
 router.post("/cart/:id", cartC.addToCart);
-router.get("/cart", cartC.getCartProduct);
+router.post("/cart", cartC.getCartProduct);
 router.delete("/cart/:id", cartC.deleteProductCart);
 router.delete("/delete-all/cart", cartC.deleteAllProductCart);
 

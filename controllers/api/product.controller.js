@@ -1,5 +1,6 @@
 const Product = require("../../models/Product.model");
 const Category = require("../../models/Category.model");
+const { getUserAgent } = require("../../utils/useragent.utils");
 // utilities
 const { StatusCodes: status } = require("http-status-codes");
 const {
@@ -42,13 +43,11 @@ module.exports = {
       const category = await Category.find({})
         .limit()
         .populate({
-          // populate product from ProductId
           path: "productId",
           select: "_id name imageId price totalOrder isReady",
           sort: { isReady: 1 },
           perDocumentLimit: 10,
           populate: {
-            // populate image url from imageId
             path: "imageId",
             select: "_id imageUrl",
             perDocumentLimit: 1,
@@ -121,10 +120,12 @@ module.exports = {
           .json(apiNotFoundResponse("Product Not Found"));
       }
 
+      const useragent = getUserAgent(req)
+
       return res
         .status(status.OK)
         .json(
-          apiResponse(status.OK, "OK", `Success get popular product`, product)
+          apiResponse(status.OK, "OK", `Success get popular product`, {product, useragent})
         );
     } catch (error) {
       return res
