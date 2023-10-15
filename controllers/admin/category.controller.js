@@ -53,13 +53,9 @@ module.exports = {
       const { id, name } = req.body;
       const findCategory = await Category.findOne({ _id: id });
 
-      console.log(findCategory);
-
       findCategory.name = name;
 
       await findCategory.save();
-
-      console.log(findCategory);
 
       req.flash("alertMessage", "success edit category");
       req.flash("alertStatus", "success");

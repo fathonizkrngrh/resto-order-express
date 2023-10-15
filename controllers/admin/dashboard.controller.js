@@ -8,13 +8,13 @@ module.exports = {
       const products = await Product.find();
       const category = await Category.find();
       const order = await Order.find();
-
-      console.log(products.length, category.length, order.length);
-
+      
       res.render("index", {
-        products,
-        category,
-        order,
+        total: {
+          product: products.length,
+          category: category.length,
+          order: order.length,
+        },
         title: "RestoOrder | Dashboard",
       });
     } catch (err) {

@@ -20,7 +20,6 @@ module.exports = {
         status: alertStatus,
       };
       const title = "Resto Order | Order";
-      console.log(order);
       res.render("admin/order/viewOrder", {
         order,
         alert,
@@ -36,21 +35,23 @@ module.exports = {
   changeStatus: async (req, res) => {
     const { id } = req.params;
     try {
-      const product = await Product.findOne({ _id: id });
-      if (product.isReady === true) {
-        product.isReady = false;
-      } else if (product.isReady === false) {
-        product.isReady = true;
-      }
+      const order = await Order.findOne({ _id: id });
+      if (order.isPaid === true){
+        req.flash("alertMessage", "Order already paid");
+        req.flash("alertStatus", "danger");
+        return res.redirect(`/admin/order`)
+      } 
+      order.isPaid = true
 
-      await product.save();
+      const product = Product.findOne({ _id: order.productId });
+      await order.save()    
 
       req.flash("alertMessage", "Success set product status");
       req.flash("alertStatus", "success");
-      res.redirect(`/admin/product`);
+      res.redirect(`/admin/order`);
     } catch (err) {
       console.log(err);
-      res.redirect(`/admin/product`);
+      res.redirect(`/admin/order`);
     }
   },
 };

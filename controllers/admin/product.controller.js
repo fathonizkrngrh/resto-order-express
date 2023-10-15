@@ -54,6 +54,7 @@ module.exports = {
         alert,
         title,
         action: "show image",
+        BASE_URL : process.env.BASE_URL 
       });
     } catch (err) {
       res.redirect("/admin/RestoOrder");

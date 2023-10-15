@@ -26,5 +26,6 @@ router.delete("/category/:id", categoryController.deleteCategory);
 
 // Order
 router.get("/order", orderController.viewOrder);
+router.put("/order/:id", orderController.changeStatus);
 
 module.exports = router;

@@ -1,9 +1,11 @@
 var seeder = require("mongoose-seed");
 var mongoose = require("mongoose");
+require('dotenv').config();
+
 
 // Connect to MongoDB via Mongoose
 seeder.connect(
-  "mongodb+srv://restoorder:restoorder@resto-order.dbq1wwd.mongodb.net/?retryWrites=true&w=majority",
+  process.env.DB_URL,
   function () {
     // Load Mongoose models
     seeder.loadModels([

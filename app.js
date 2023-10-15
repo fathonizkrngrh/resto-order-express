@@ -14,20 +14,13 @@ const routes = require("./routes/index");
 
 const mongoose = require("mongoose");
 mongoose.connect(
-  "mongodb+srv://restoorder:restoorder@resto-order.dbq1wwd.mongodb.net/?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
+  process.env.DB_URL
 );
 
 const app = express();
 const port = process.env.PORT || 8080;
 
-var corsOptions = {
-  origin: "http://localhost:8081",
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
