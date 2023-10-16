@@ -29,8 +29,9 @@ module.exports = {
         action: "view",
       });
     } catch (err) {
+      console.log(err)
       res.render("error", {
-        err,
+        err,  
       });
     }
   },
