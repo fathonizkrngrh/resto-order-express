@@ -57,7 +57,7 @@ module.exports = {
         BASE_URL : process.env.BASE_URL 
       });
     } catch (err) {
-      res.redirect("/admin/RestoOrder");
+      res.redirect("/admin/product");
     }
   },
   addProduct: async (req, res) => {
@@ -124,7 +124,7 @@ module.exports = {
     } catch (err) {
       req.flash("alertMessage", `${err.message}`);
       req.flash("alertStatus", "danger");
-      res.redirect("/admin/RestoOrder");
+      res.redirect("/admin/product");
     }
   },
   editProduct: async (req, res) => {
