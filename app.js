@@ -82,7 +82,8 @@ app.use((req, res) =>
 );
 
 // error handler
-app.use((err, req, res, next) =>
+app.use((err, req, res, next) => {
+  console.log(err)
   res
     .status(status.INTERNAL_SERVER_ERROR)
     .json(
@@ -92,7 +93,7 @@ app.use((err, req, res, next) =>
         err.message
       )
     )
-);
+});
 
 app.listen(port, () => {
   console.info(`======= Server is running on http://localhost:${port} =======`);
