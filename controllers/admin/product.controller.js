@@ -240,12 +240,10 @@ module.exports = {
       const product = await Product.findOne({ _id: id }).populate("imageId");
 
       const category = await Category.findOne({ _id: product.categoryId });
-      console.log("sebelum dihapus ", category.productId);
       await Category.updateOne(
         { _id: product.categoryId },
         { $pull: { productId: id } }
       );
-      console.log("setelah dihapus", category.productId);
       for (let i = 0; i < product.imageId.length; i++) {
         Image.findOne({ _id: product.imageId[i]._id })
           .then(async (image) => {

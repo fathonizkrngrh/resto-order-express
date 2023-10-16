@@ -46,7 +46,6 @@ module.exports = {
           path: "productId",
           select: "_id name imageId price totalOrder isReady",
           sort: { isReady: 1 },
-          perDocumentLimit: 10,
           populate: {
             path: "imageId",
             select: "_id imageUrl",
