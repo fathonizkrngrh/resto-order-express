@@ -16,7 +16,7 @@ const Cart = new Schema({
     type: String,
     required: false,
   },
-  useragent: {
+  userId: {
     type: String,
     required: true,
   },

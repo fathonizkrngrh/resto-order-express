@@ -1,12 +1,12 @@
 const Product = require("../../models/Product.model");
 const Category = require("../../models/Category.model");
-const { getUserAgent } = require("../../utils/useragent.utils");
 // utilities
 const { StatusCodes: status } = require("http-status-codes");
 const {
   apiResponse,
   apiNotFoundResponse,
 } = require("../../utils/api.response");
+const { generateRandomUserId } = require("../../utils/randomGenerator.util");
 
 module.exports = {
   // ----- Category -----//
@@ -52,12 +52,6 @@ module.exports = {
             perDocumentLimit: 1,
           },
         });
-
-      if (!category || category.length === 0) {
-        return res
-          .status(status.NOT_FOUND)
-          .json(apiNotFoundResponse("Category Not Found"));
-      }
 
       return res
         .status(status.OK)
@@ -119,12 +113,12 @@ module.exports = {
           .json(apiNotFoundResponse("Product Not Found"));
       }
 
-      const useragent = getUserAgent(req)
+      const userId = generateRandomUserId(16)
 
       return res
         .status(status.OK)
         .json(
-          apiResponse(status.OK, "OK", `Success get popular product`, {product, useragent})
+          apiResponse(status.OK, "OK", `Success get popular product`, {product, userId})
         );
     } catch (error) {
       return res

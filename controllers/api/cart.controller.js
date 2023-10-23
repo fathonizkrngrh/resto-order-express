@@ -11,7 +11,7 @@ module.exports = {
   // ----------- Cart ----------- //
   addToCart: async (req, res) => {
     try {
-      const { qty, notes, useragent } = req.body;
+      const { qty, notes, userId } = req.body;
       const { id } = req.params;
 
       const product = await Product.findOne({ _id: id });
@@ -26,7 +26,7 @@ module.exports = {
         }
 
         isExist.subtotal = isExist.subtotal + product.price * Number(qty);
-        isExist.useragent = useragent
+        isExist.userId = userId
 
         console.log(isExist)
 
@@ -49,7 +49,7 @@ module.exports = {
           subtotal: totalPrice,
           notes: notes || "",
           isOrdered: false,
-          useragent: useragent
+          userId: userId
         };
         const cart = await Cart.create(cartProduct);
         return res
@@ -72,8 +72,8 @@ module.exports = {
   },
   getCartProduct: async (req, res) => {
     try {
-        const { useragent} = req.body
-      const cart = await Cart.find({ isOrdered: false, useragent: useragent }).populate({
+        const { userId} = req.body
+      const cart = await Cart.find({ isOrdered: false, userId: userId }).populate({
         path: "productId",
         select: "_id name price",
       });

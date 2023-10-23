@@ -29,7 +29,7 @@ const orderSchema = new Schema({
     type: String,
     required: true,
   },
-  useragent: {
+  userId: {
     type: String,
     required: true,
   },
