@@ -76,7 +76,6 @@ module.exports = {
         const product = await Product.create(newProduct);
         category.productId.push({ _id: product._id });
         await category.save();
-        console.log(req.files);
         for (let i = 0; i < req.files.length; i++) {
           const imageSave = await Image.create({
             imageUrl: `images/${req.files[i].filename}`,

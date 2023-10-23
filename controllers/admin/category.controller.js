@@ -1,4 +1,5 @@
 const Category = require("../../models/Category.model");
+const Product = require("../../models/Product.model");
 
 module.exports = {
   viewCategory: async (req, res) => {
@@ -71,14 +72,15 @@ module.exports = {
   deleteCategory: async (req, res) => {
     try {
       const { id } = req.params;
-      const findCategory = await Category.findOne({ _id: id });
+      const category = await Category.findOne({ _id: id });
 
-      await findCategory.remove();
+      await Product.deleteMany({ _id: category.productId });
+      await category.remove();
 
       req.flash("alertMessage", "success delete category");
       req.flash("alertStatus", "success");
       res.redirect("/admin/category");
-    } catch (error) {
+    } catch (err) {
       req.flash("alertMessage", `${err.message}`);
       req.flash("alertStatus", "danger");
       res.redirect("/admin/category");
