@@ -75,7 +75,12 @@ module.exports = {
         const { userId} = req.body
       const cart = await Cart.find({ isOrdered: false, userId: userId }).populate({
         path: "productId",
-        select: "_id name price",
+        select: "_id name imageId price ",
+        populate: {
+          path: "imageId",
+          select: "_id imageUrl",
+          perDocumentLimit: 1,
+        },
       });
       return res
         .status(status.OK)
