@@ -34,8 +34,6 @@ module.exports = {
           .json(apiBadRequestResponse("Empty cart"));
       }
 
-      const product = await Product.find();
-
       const invoice = createInvoice(username, tableNumber);
 
       let cartId = [];
@@ -43,13 +41,9 @@ module.exports = {
         cartId.push(cart[i]._id);
         cart[i].isOrdered = true;
         cart[i].save();
-        for (let j = 0; j < product.length; j++) {
-          if (cart[i].productId == product[j]._id) {
-            console.log(product[j].totalOrder, cart[i].qty);
-            product[j].totalOrder += Number(cart[i].qty);
-            product.save();
-          }
-        }
+        const product = await Product.findOne({_id: cart[i].productId })
+        product.totalOrder += Number(cart[i].qty);
+        await product.save();
       }
 
       const totalBeforeTax = sumTotalBeforeTax(cart);

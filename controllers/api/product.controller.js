@@ -101,7 +101,7 @@ module.exports = {
     try {
       const product = await Product.find()
         .limit(4)
-        .sort({ totalOrder: 1 })
+        .sort({ totalOrder: -1 })
         .populate({
           path: "imageId",
           select: "_id imageUrl",
